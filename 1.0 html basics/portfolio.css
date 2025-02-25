@@ -1,0 +1,68 @@
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: teal;
+    padding: 23px;
+    margin: 40px;
+}
+
+.image img{
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid lime;
+
+}
+.description h1{
+    text-align: center;
+    color: white;
+    font-size: 23px;
+}
+.description p{
+    color: white;
+    margin-top: 10px;
+}
+
+/* working with icons */
+.icons{
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    gap: 12px;
+}
+.icons .icon{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icons .icon:nth-child(1){
+    color: white;
+    background-color: black;
+}
+.icons .icon:nth-child(2) {
+    color: white;
+    background-color: blue;
+}
+.icons .icon:nth-child(3) {
+    color: white;
+    background-color: red;
+}
+
+.icons .icon:nth-child(4) {
+    color: white;
+    background-color: black;
+}
