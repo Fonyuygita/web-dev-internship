@@ -1,0 +1,439 @@
+/* 
+==============================================
+GLOBAL STYLES
+==============================================
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    /* Dark background as requested */
+    background-color: #222;
+    color: white;
+    line-height: 1.6;
+}
+
+.container {
+    /* Container for content alignment */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 
+==============================================
+CONTACT SECTION STYLES
+==============================================
+*/
+.contact-section {
+    /* Spacing for the section */
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative circle elements */
+.contact-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    /* Semi-transparent orange-red for visual interest */
+    background: rgba(255, 69, 0, 0.05);
+    z-index: 0;
+}
+
+.contact-section::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    /* Semi-transparent orange-red for visual interest */
+    background: rgba(255, 69, 0, 0.03);
+    z-index: 0;
+}
+
+/* Section title styling */
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+    font-family: "Lobster", serif
+}
+
+/* Highlight "Touch" with orange-red color */
+.section-title span {
+    color: orangered;
+    position: relative;
+}
+
+/* Underline for the highlighted word */
+.section-title span::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: orangered;
+}
+
+/* Two-column layout for contact content */
+.contact-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Left column: Contact information */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: white;
+}
+
+/* Individual contact item (address, email, phone) */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+/* Icon styling for contact items */
+.info-item i {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 69, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: orangered;
+    font-size: 1.2rem;
+}
+
+/* Contact item titles */
+.info-details h4 {
+    font-size: 1.2rem;
+    color: #aaa;
+    /* Gray color for secondary text */
+    margin-bottom: 5px;
+}
+
+/* Contact item content and links */
+.info-details p,
+.info-details a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+/* Hover effect for links */
+.info-details a:hover {
+    color: orangered;
+}
+
+/* Social media links container */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* Individual social media link styling */
+.social-link {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 1.2rem;
+}
+
+/* Hover effect for social links */
+.social-link:hover {
+    background-color: orangered;
+    transform: translateY(-5px);
+}
+
+/* Right column: Contact form */
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contact-form h3 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: white;
+}
+
+/* Form field container */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Input and textarea styling */
+.form-control {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+/* Focus state for form fields */
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px orangered;
+}
+
+/* Specific style for textarea */
+textarea.form-control {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Placeholder text color */
+.form-control::placeholder {
+    color: #aaa;
+}
+
+/* Submit button styling */
+.btn-submit {
+    background-color: orangered;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Hover effect for submit button */
+.btn-submit:hover {
+    background-color: #ff3300;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 69, 0, 0.2);
+}
+
+/* 
+==============================================
+FOOTER SECTION STYLES
+==============================================
+*/
+.footer {
+    /* Slightly darker background than main content */
+    background-color: #1a1a1a;
+    padding: 60px 0 20px;
+    position: relative;
+}
+
+/* Multi-column layout for footer content */
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+/* Individual footer column */
+.footer-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Footer column headings */
+.footer-col h4 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Underline for footer headings */
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: orangered;
+}
+
+/* Footer paragraph text */
+.footer-col p {
+    color: #aaa;
+    /* Gray color for secondary text */
+    line-height: 1.8;
+}
+
+/* Footer links list */
+.footer-links li {
+    list-style: none;
+    margin-bottom: 12px;
+}
+
+/* Footer link styling */
+.footer-links a {
+    color: #aaa;
+    /* Gray color for secondary text */
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+/* Hover effect for footer links */
+.footer-links a:hover {
+    color: orangered;
+    transform: translateX(5px);
+}
+
+/* Newsletter section specific styles */
+.footer-newsletter p {
+    color: #aaa;
+    /* Gray color for secondary text */
+    margin-bottom: 20px;
+}
+
+/* Newsletter form layout */
+.newsletter-form {
+    display: flex;
+}
+
+/* Newsletter input field */
+.newsletter-input {
+    flex: 1;
+    padding: 12px 15px;
+    background-color: #333;
+    border: none;
+    color: white;
+    border-radius: 5px 0 0 5px;
+}
+
+.newsletter-input:focus {
+    outline: none;
+}
+
+/* Newsletter subscribe button */
+.newsletter-btn {
+    background-color: orangered;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.newsletter-btn:hover {
+    background-color: #ff3300;
+}
+
+/* Copyright section */
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: #aaa;
+    /* Gray color for secondary text */
+    font-size: 0.9rem;
+}
+
+/* Highlight for name in copyright */
+.footer-bottom span {
+    color: orangered;
+}
+
+/* 
+==============================================
+RESPONSIVE STYLES
+==============================================
+*/
+@media (max-width: 768px) {
+
+    /* Stack columns on smaller screens */
+    .contact-content,
+    .footer-content {
+        flex-direction: column;
+    }
+
+    /* Reduce title size on mobile */
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* 
+==============================================
+ICON STYLES (EMOJI FALLBACKS)
+==============================================
+*/
+.icon-map-marker::before {
+    content: "📍";
+}
+
+.icon-envelope::before {
+    content: "✉️";
+}
+
+.icon-phone::before {
+    content: "📞";
+}
+
+.icon-facebook::before {
+    content: "f";
+}
+
+.icon-twitter::before {
+    content: "t";
+}
+
+.icon-instagram::before {
+    content: "i";
+}
+
+.icon-linkedin::before {
+    content: "in";
+}
+
+.icon-github::before {
+    content: "g";
+}

@@ -110,3 +110,72 @@ body{
     height: 300px;
 }
 
+/* contact me styles */
+
+.contact{
+    /* background-color: teal; */
+    height: 100vh;
+
+}
+
+.contact .title h1{
+    text-align: center;
+    font-size: 44px;
+    color: white;
+    font-family: "Lobster", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+}
+
+.contact .title span{
+    color: orangered;
+    position: relative;
+
+}
+
+.contact .title span::after{
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: orangered;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+   
+}
+
+.contact .contactMain{
+    width: 100%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    margin-top: 45px;
+}
+
+.contact .contactMain .details{
+    /* background-color: teal; */
+    flex: 1;
+    /* padding: 34px; */
+}
+.details  .title {
+    color: white;
+}
+
+.details .infos{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* background-color: red; */
+    margin-top: 14px;
+}
+.details .infos .info{
+    display: flex;
+    align-items: center;
+    gap: 23px;
+}
+.contact .contactMain .contactForm{
+    /* background-color: black; */
+    flex: 1;
+}
+
+
