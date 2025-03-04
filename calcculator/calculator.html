@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spartans Internship Program</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #d4af37;
+            overflow-x: hidden;
+            height: 200vh;
+        }
+
+        /* Landing Page */
+        .landing-page {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: #d4af37;
+            color: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            border: 3px solid #fff;
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .calculator-preview {
+            width: 200px;
+            height: 300px;
+            background: #333;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        .calculator-screen {
+            background: #a0c8a0;
+            height: 50px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .calculator-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .calculator-key {
+            background: #444;
+            color: white;
+            border-radius: 5px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .operator-key {
+            background: #d4af37;
+            color: #1a1a1a;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Calculator Page */
+        .calculator-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+        }
+
+        .calculator-container {
+            width: 300px;
+            background: #333;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #d4af37;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #d4af37;
+            text-transform: uppercase;
+            font-size: 18px;
+        }
+
+        .calc-screen {
+            background: #c8e6c9;
+            height: 70px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 15px;
+            font-size: 30px;
+            color: #333;
+        }
+
+        .calc-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-key {
+            background: #444;
+            color: white;
+            border-radius: 10px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calc-key:hover {
+            background: #555;
+        }
+
+        .op-key {
+            background: #d4af37;
+            color: #1a1a1a;
+        }
+
+        .op-key:hover {
+            background: #e6c14f;
+        }
+
+        .clear-key {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .clear-key:hover {
+            background: #f85c4c;
+        }
+
+        .equal-key {
+            background: #27ae60;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equal-key:hover {
+            background: #2ecc71;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #d4af37;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .scroll-arrow {
+            font-size: 24px;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Animation */
+        .page-transition {
+            transition: transform 1.5s ease;
+        }
+
+        .move-up {
+            transform: translateY(-100vh);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container page-transition">
+        <!-- Landing Page -->
+        <section class="landing-page">
+            <div class="logo">S</div>
+            <h1>Spartans</h1>
+            <p class="tagline">Forging the Future's Tech Legion</p>
+
+            <div class="calculator-preview">
+                <div class="calculator-screen">0</div>
+                <div class="calculator-keys">
+                    <div class="calculator-key">7</div>
+                    <div class="calculator-key">8</div>
+                    <div class="calculator-key">9</div>
+                    <div class="calculator-key operator-key">÷</div>
+                    <div class="calculator-key">4</div>
+                    <div class="calculator-key">5</div>
+                    <div class="calculator-key">6</div>
+                    <div class="calculator-key operator-key">×</div>
+                    <div class="calculator-key">1</div>
+                    <div class="calculator-key">2</div>
+                    <div class="calculator-key">3</div>
+                    <div class="calculator-key operator-key">-</div>
+                    <div class="calculator-key">0</div>
+                    <div class="calculator-key">.</div>
+                    <div class="calculator-key operator-key">=</div>
+                    <div class="calculator-key operator-key">+</div>
+                </div>
+            </div>
+
+            <button class="cta-button" id="getStartedBtn">ENTER THE ARENA</button>
+
+            <div class="scroll-indicator">
+                <span class="scroll-text">Scroll Down</span>
+                <span class="scroll-arrow">⌄</span>
+            </div>
+        </section>
+
+        <!-- Calculator Page -->
+        <section class="calculator-page">
+            <div class="calculator-container">
+                <h2 class="calculator-header">Spartan Calculator</h2>
+                <div class="calc-screen">0</div>
+                <div class="calc-keys">
+                    <div class="calc-key clear-key">C</div>
+                    <div class="calc-key">(</div>
+                    <div class="calc-key">)</div>
+                    <div class="calc-key op-key">÷</div>
+
+                    <div class="calc-key">7</div>
+                    <div class="calc-key">8</div>
+                    <div class="calc-key">9</div>
+                    <div class="calc-key op-key">×</div>
+
+                    <div class="calc-key">4</div>
+                    <div class="calc-key">5</div>
+                    <div class="calc-key">6</div>
+                    <div class="calc-key op-key">-</div>
+
+                    <div class="calc-key">1</div>
+                    <div class="calc-key">2</div>
+                    <div class="calc-key">3</div>
+                    <div class="calc-key op-key">+</div>
+
+                    <div class="calc-key">0</div>
+                    <div class="calc-key">.</div>
+                    <div class="calc-key equal-key">=</div>
+                </div>
+            </div>
+
+            <button class="back-button" id="backBtn">Return to main page</button>
+        </section>
+    </div>
+
+    <script>
+        // Animation for page transition
+        document.getElementById('getStartedBtn').addEventListener('click', function () {
+            document.querySelector('.page-container').classList.add('move-up');
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function () {
+            document.querySelector('.page-container').classList.remove('move-up');
+        });
+    </script>
+</body>
+
+</html>
