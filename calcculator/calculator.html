@@ -205,6 +205,34 @@
             background: #f85c4c;
         }
 
+        /* Add these styles to your existing CSS file */
+
+.trig-keys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.trig-key {
+    background-color: #4a90e2;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.trig-key:hover {
+    background-color: #3a7bcc;
+}
+
+.trig-key:active {
+    background-color: #2a6cbc;
+}
+
         .equal-key {
             background: #27ae60;
             color: white;
@@ -322,41 +350,50 @@
         </section>
 
         <!-- Calculator Page -->
-        <section class="calculator-page">
-            <div class="calculator-container">
-                <h2 class="calculator-header">Spartan Calculator</h2>
-                <div class="calc-screen">0</div>
-                <div class="calc-keys">
-                    <div class="calc-key clear-key">C</div>
-                    <div class="calc-key">(</div>
-                    <div class="calc-key">)</div>
-                    <div class="calc-key op-key">÷</div>
-
-                    <div class="calc-key">7</div>
-                    <div class="calc-key">8</div>
-                    <div class="calc-key">9</div>
-                    <div class="calc-key op-key">×</div>
-
-                    <div class="calc-key">4</div>
-                    <div class="calc-key">5</div>
-                    <div class="calc-key">6</div>
-                    <div class="calc-key op-key">-</div>
-
-                    <div class="calc-key">1</div>
-                    <div class="calc-key">2</div>
-                    <div class="calc-key">3</div>
-                    <div class="calc-key op-key">+</div>
-
-                    <div class="calc-key">0</div>
-                    <div class="calc-key">.</div>
-                    <div class="calc-key equal-key">=</div>
-                </div>
+    <!-- Calculator Page -->
+    <section class="calculator-page">
+        <div class="calculator-container">
+            <h2 class="calculator-header">Spartan Calculator</h2>
+            <div class="calc-screen">0</div>
+    
+            <!-- Added trig functions row here -->
+            <div class="trig-keys">
+                <div class="calc-key trig-key" id="sin-key">sin</div>
+                <div class="calc-key trig-key" id="cos-key">cos</div>
+                <div class="calc-key trig-key" id="tan-key">tan</div>
             </div>
-
-            <button class="back-button" id="backBtn">Return to main page</button>
-        </section>
+    
+            <div class="calc-keys">
+                <div class="calc-key clear-key">C</div>
+                <div class="calc-key">(</div>
+                <div class="calc-key">)</div>
+                <div class="calc-key op-key">÷</div>
+    
+                <div class="calc-key">7</div>
+                <div class="calc-key">8</div>
+                <div class="calc-key">9</div>
+                <div class="calc-key op-key">×</div>
+    
+                <div class="calc-key">4</div>
+                <div class="calc-key">5</div>
+                <div class="calc-key">6</div>
+                <div class="calc-key op-key">-</div>
+    
+                <div class="calc-key">1</div>
+                <div class="calc-key">2</div>
+                <div class="calc-key">3</div>
+                <div class="calc-key op-key">+</div>
+    
+                <div class="calc-key">0</div>
+                <div class="calc-key">.</div>
+                <div class="calc-key equal-key">=</div>
+            </div>
+        </div>
+    
+        <button class="back-button" id="backBtn">Return to main page</button>
+    </section>
     </div>
-
+    
     <script>
         // Animation for page transition
         document.getElementById('getStartedBtn').addEventListener('click', function () {
@@ -367,6 +404,8 @@
             document.querySelector('.page-container').classList.remove('move-up');
         });
     </script>
+    
+    <script src="calck.js"></script>
 </body>
 
 </html>

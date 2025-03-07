@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spartans GPT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --dark-bg: #1a1a2e;
+            --darker-bg: #16213e;
+            --accent: #ff6347; /* orangered */
+            --accent-gradient: linear-gradient(45deg, #ff6347, #ff7f50);
+            --accent-secondary: #38b0de; /* Sky blue as secondary accent */
+            --text: #ffffff;
+            --text-secondary: #c8c8d4;
+            --card-bg: #272741;
+            --card-bg-secondary: #292945;
+            --user-message-bg: rgba(255, 99, 71, 0.15);
+            --bot-message-bg: rgba(56, 176, 222, 0.1);
+            --gradient-start: rgba(22, 33, 62, 0.8);
+            --gradient-end: rgba(26, 26, 46, 0.95);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg), #101028);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        header {
+            background-color: var(--darker-bg);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+            border-bottom: 1px solid rgba(255, 99, 71, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            -webkit-text-fill-color: #ff6347;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        /* Main chat container */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 70px);
+        }
+
+        /* Chat history area */
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user-message {
+            align-self: flex-end;
+        }
+
+        .message.bot-message {
+            align-self: flex-start;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            background: linear-gradient(135deg, var(--card-bg), var(--card-bg-secondary));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: bold;
+        }
+
+        .bot-avatar {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            font-weight: bold;
+        }
+
+        .message-content {
+            background: linear-gradient(135deg, var(--card-bg), var(--card-bg-secondary));
+            padding: 12px 15px;
+            border-radius: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, rgba(255, 99, 71, 0.15), rgba(255, 99, 71, 0.2));
+            border-top-right-radius: 4px;
+            color: var(--text);
+            border: 1px solid rgba(255, 99, 71, 0.2);
+        }
+
+        .bot-message .message-content {
+            background: linear-gradient(135deg, rgba(56, 176, 222, 0.15), rgba(56, 176, 222, 0.2));
+            border-top-left-radius: 4px;
+            color: var(--text);
+            border: 1px solid rgba(56, 176, 222, 0.2);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* Code formatting in messages */
+        .code-block {
+            background-color: rgba(22, 33, 62, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid var(--accent);
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(56, 176, 222, 0.1);
+            border-radius: 18px;
+            width: fit-content;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-secondary);
+            border-radius: 50%;
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Input area styling */
+        .chat-input-container {
+            border-top: 1px solid rgba(255, 99, 71, 0.3);
+            padding: 20px 0;
+            background-color: var(--darker-bg);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .suggestions-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--card-bg);
+        }
+
+        .suggestions-container::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .suggestions-container::-webkit-scrollbar-track {
+            background: var(--card-bg);
+            border-radius: 10px;
+        }
+
+        .suggestions-container::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .suggestion-chip {
+            background: linear-gradient(135deg, rgba(255, 99, 71, 0.1), rgba(255, 99, 71, 0.2));
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--accent-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 99, 71, 0.3);
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(39, 39, 65, 0.5);
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+            padding-right: 50px;
+            resize: none;
+            overflow-y: auto;
+            max-height: 120px;
+        }
+
+        .chat-input:focus {
+            box-shadow: 0 0 0 2px var(--accent);
+            background-color: rgba(39, 39, 65, 0.8);
+            border: 1px solid rgba(255, 99, 71, 0.3);
+        }
+
+        .send-button {
+            position: absolute;
+            right: 10px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(255, 99, 71, 0.4);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 12px;
+            }
+
+            .message {
+                max-width: 95%;
+            }
+
+            .chat-input {
+                padding: 12px 15px;
+                padding-right: 45px;
+                font-size: 14px;
+            }
+
+            .send-button {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .suggestion-chip {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <span>Spartans GPT</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Examples</a></li>
+                    <li><a href="#">Team</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="chat-container container">
+        <div class="chat-history">
+            <!-- Bot welcome message -->
+            <div class="message bot-message">
+                <div class="avatar bot-avatar">S</div>
+                <div>
+                    <div class="message-content">
+                        <p>Hello! I'm Spartans GPT, your intelligent assistant. How can I help you today?</p>
+                    </div>
+                    <div class="message-time">10:32 AM</div>
+                </div>
+            </div>
+
+            <!-- User message -->
+            <div class="message user-message">
+                <div>
+                    <div class="message-content">
+                        <p>Hi! Can you tell me about your features?</p>
+                    </div>
+                    <div class="message-time">10:33 AM</div>
+                </div>
+                <div class="avatar user-avatar">U</div>
+            </div>
+
+            <!-- Bot response -->
+            <div class="message bot-message">
+                <div class="avatar bot-avatar">S</div>
+                <div>
+                    <div class="message-content">
+                        <p>Of course! I'm designed by the Spartans intern team with several powerful features:</p>
+                        <br>
+                        <p>🚀 <strong>Smart Responses</strong> - I understand natural language and provide helpful answers</p>
+                        <p>💡 <strong>Auto Suggestions</strong> - I can predict what you might want to ask next</p>
+                        <p>🔍 <strong>Search Integration</strong> - I can search the web for information</p>
+                        <p>📊 <strong>Data Analysis</strong> - I can analyze data and provide insights</p>
+                        <p>💻 <strong>Code Generation</strong> - I can help write and explain code</p>
+                        <br>
+                        <p>Would you like a demonstration of any specific feature?</p>
+                    </div>
+                    <div class="message-time">10:34 AM</div>
+                </div>
+            </div>
+
+          
+
+            <!-- Typing indicator -->
+            <div class="message bot-message">
+                <div class="avatar bot-avatar">S</div>
+                <div class="typing-indicator">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="container">
+                <div class="chat-input-wrapper">
+                    <div class="suggestions-container">
+                        <div class="suggestion-chip">How does auto-complete work?</div>
+                        <div class="suggestion-chip">Tell me about data analysis</div>
+                        <div class="suggestion-chip">Can you create a CSS animation?</div>
+                        <div class="suggestion-chip">Help me with a Python script</div>
+                        <div class="suggestion-chip">Who are the Spartans team?</div>
+                    </div>
+                    <div class="input-row">
+                        <textarea class="chat-input" placeholder="Type your message here..." rows="1"></textarea>
+                        <button class="send-button">
+                            <i>➤</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

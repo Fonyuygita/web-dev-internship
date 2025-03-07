@@ -6,12 +6,13 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+   font-family: serif;
+   background-color: #222;
 }
 
 /* Navbar container */
 .navbar {
+    /* background-color: #111; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,10 +80,10 @@ body {
 }
 
 /* Hamburger menu - hidden on desktop */
-.hamburger {
+/* .hamburger {
     display: none;
     cursor: pointer;
-}
+} */
 
 .bar {
     display: block;
@@ -96,10 +97,15 @@ body {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
 
+
+
+
+
     /* Show hamburger menu on mobile */
     .hamburger {
         display: block;
         z-index: 101;
+        cursor:pointer;
     }
 
     /* Mobile menu styles */

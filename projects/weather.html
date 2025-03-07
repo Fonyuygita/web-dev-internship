@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather For Spartans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --dark-bg: #1a1a2e;
+            --darker-bg: #16213e;
+            --accent: #ff6347;
+            /* Enhanced orangered */
+            --accent-gradient: linear-gradient(45deg, #ff6347, #ff7f50);
+            --accent-secondary: #38b0de;
+            /* Sky blue as secondary accent */
+            --text: #ffffff;
+            --text-secondary: #c8c8d4;
+            --card-bg: #272741;
+            --card-bg-secondary: #292945;
+            --gradient-start: rgba(22, 33, 62, 0.8);
+            --gradient-end: rgba(26, 26, 46, 0.95);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg), #101028);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--darker-bg);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+            border-bottom: 1px solid rgba(255, 99, 71, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            -webkit-text-fill-color: #ff6347;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        /* Hero section with spartans image */
+        .hero {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.7) saturate(1.2);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 38px;
+            margin-bottom: 15px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main content */
+        main {
+            padding: 30px 0;
+        }
+
+        .section-title {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid;
+            border-image: var(--accent-gradient) 1;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .weather-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .weather-card {
+            background: linear-gradient(135deg, var(--card-bg), var(--card-bg-secondary));
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 99, 71, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-location {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .card-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .card-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .temperature {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffffff, #dedeff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .weather-icon {
+            font-size: 50px;
+            filter: drop-shadow(0 0 10px rgba(255, 99, 71, 0.3));
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: rgba(39, 39, 65, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Weekly forecast */
+        .forecast {
+            background: linear-gradient(135deg, var(--card-bg), var(--card-bg-secondary));
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .forecast-title {
+            color: var(--accent);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .forecast-days {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .forecast-day {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            background-color: rgba(22, 33, 62, 0.7);
+            transition: transform 0.3s, background-color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .forecast-day:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255, 99, 71, 0.1), rgba(255, 99, 71, 0.2));
+            border: 1px solid rgba(255, 99, 71, 0.2);
+        }
+
+        .day-name {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .day-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 5px rgba(255, 99, 71, 0.3));
+        }
+
+        .day-temp {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Search section */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(39, 39, 65, 0.5);
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 2px var(--accent);
+            background-color: rgba(39, 39, 65, 0.8);
+        }
+
+        .search-button {
+            background: var(--accent-gradient);
+            color: var(--text);
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 99, 71, 0.3);
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 99, 71, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-bg);
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 99, 71, 0.3);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero {
+                height: 250px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .weather-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .forecast-days {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .hero {
+                height: 200px;
+            }
+
+            .hero-title {
+                font-size: 24px;
+            }
+
+            .forecast-days {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">☀️</span>
+                <span>Weather For Spartans</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Forecasts</a></li>
+                    <li><a href="#">Maps</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <img src="https://i.ibb.co/231669jB/SPARTAN.jpg" alt="Spartans Interns Team" class="hero-image">
+        <div class="overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">Weather For The Spartans</h1>
+            <p class="hero-subtitle">Real-time weather insights developed by our amazing Spartans team</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="search-section">
+            <h2 class="section-title">Search Location</h2>
+            <form class="search-form">
+                <input type="text" class="search-input" placeholder="Enter city or zip code...">
+                <button type="submit" class="search-button">Get Weather</button>
+            </form>
+        </section>
+
+        <section>
+            <h2 class="section-title">Current Weather</h2>
+            <div class="weather-cards">
+                <div class="weather-card">
+                    <div class="card-header">
+                        <div class="card-location">New York City</div>
+                        <div class="card-date">Today, Mar 6</div>
+                    </div>
+                    <div class="card-main">
+                        <div class="temperature">23°</div>
+                        <div class="weather-icon">🌤️</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Feels Like</span>
+                            <span class="detail-value">25°</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value">65%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Wind</span>
+                            <span class="detail-value">12 mph</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">UV Index</span>
+                            <span class="detail-value">3 (Moderate)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-card">
+                    <div class="card-header">
+                        <div class="card-location">Los Angeles</div>
+                        <div class="card-date">Today, Mar 6</div>
+                    </div>
+                    <div class="card-main">
+                        <div class="temperature">28°</div>
+                        <div class="weather-icon">☀️</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Feels Like</span>
+                            <span class="detail-value">30°</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value">45%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Wind</span>
+                            <span class="detail-value">8 mph</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">UV Index</span>
+                            <span class="detail-value">7 (High)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-card">
+                    <div class="card-header">
+                        <div class="card-location">London</div>
+                        <div class="card-date">Today, Mar 6</div>
+                    </div>
+                    <div class="card-main">
+                        <div class="temperature">15°</div>
+                        <div class="weather-icon">🌧️</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Feels Like</span>
+                            <span class="detail-value">13°</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value">78%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Wind</span>
+                            <span class="detail-value">15 mph</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">UV Index</span>
+                            <span class="detail-value">1 (Low)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Weekly Forecast</h2>
+            <div class="forecast">
+                <h3 class="forecast-title">New York City - 7 Day Forecast</h3>
+                <div class="forecast-days">
+                    <div class="forecast-day">
+                        <div class="day-name">Today</div>
+                        <div class="day-icon">🌤️</div>
+                        <div class="day-temp">23°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Fri</div>
+                        <div class="day-icon">☀️</div>
+                        <div class="day-temp">25°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Sat</div>
+                        <div class="day-icon">☀️</div>
+                        <div class="day-temp">27°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Sun</div>
+                        <div class="day-icon">🌦️</div>
+                        <div class="day-temp">24°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Mon</div>
+                        <div class="day-icon">🌧️</div>
+                        <div class="day-temp">20°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Tue</div>
+                        <div class="day-icon">🌧️</div>
+                        <div class="day-temp">19°</div>
+                    </div>
+                    <div class="forecast-day">
+                        <div class="day-name">Wed</div>
+                        <div class="day-icon">🌤️</div>
+                        <div class="day-temp">22°</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">WEATHER FOR CREATIVITY</div>
+            <div class="footer-text">Designed with ❤️ by the Spartans Intern Team</div>
+            <div class="footer-text">© 2025 WEATHER FOR SPARTANS. All rights reserved.</div>
+        </div>
+    </footer>
+    <!-- <script src="weather.js"></script> -->
+</body>
+
+</html>
